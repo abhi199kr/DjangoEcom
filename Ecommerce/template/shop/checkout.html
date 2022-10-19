@@ -1,0 +1,139 @@
+{% extends "shop/basic.html" %}
+{% block title %}Chcekout{% endblock title %}
+{% block body %}
+<div class="container">
+    <div class="col">
+        <h2>Step 1. Review your cart</h2>
+        <div>
+        <ul class="list-group" id="items">
+            
+           
+          </ul>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mt-3">
+                <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>Rs.<span id="totalPrice"></b>  </span>Enter your details below & place your order. Thanks for using My Awesome Cart!</li>
+            </ol>
+        </nav>
+        </div>
+    </div>
+    <div class="col">
+        <h2>Step 2. Enter your address and other details</h2>
+        <form class="row g-3 needs-validation" novalidate method="post" action="/shop/checkout/">
+            {% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemsJson">
+            <input type="hidden" name="amount" id="amount">
+
+            <div class="col-md-4 position-relative">
+              <label for="validationTooltip01" class="form-label">First name</label>
+              <input type="text" class="form-control" id="validationTooltip01" name="name" placeholder="Mark" required>
+              <div class="valid-tooltip">
+                Looks good!
+              </div>
+            </div>
+            <div class="col-md-4 position-relative">
+              <label for="validationTooltip02" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="validationTooltip02" placeholder="Otto" required>
+              <div class="valid-tooltip">
+                Looks good!
+              </div>
+            </div>
+            <div class="col-md-4 position-relative">
+                <label for="emailid" class="form-label">Last name</label>
+                <input type="email" name="email" class="form-control" id="emailid" placeholder="email" required>
+            </div>
+            <div class="col-md-4 position-relative">
+              <label for="validationTooltip03" class="form-label">City</label>
+              <input type="text" name="city" class="form-control" id="validationTooltip03" required>
+              <div class="invalid-tooltip">
+                Please provide a valid city.
+              </div>
+            </div>
+            <div class="col-md-4 position-relative">
+                <label for="validationTooltip03" class="form-label">State</label>
+                <input type="text" name="state" class="form-control" id="validationTooltip03" required>
+                <div class="invalid-tooltip">
+                  Please provide a valid city.
+                </div>
+              </div>
+            <div class="col-md-3 position-relative">
+              <label for="validationTooltip05" class="form-label">Zip</label>
+              <input type="text" name="zipc" class="form-control" id="validationTooltip05" required>
+              <div class="invalid-tooltip">
+                Please provide a valid zip.
+              </div>
+            </div>
+            <div class="col-6 my-2">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="tel" name="phone" id="mobile" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary " id="po" type="submit" onclick="onumber()">Place Order</button>
+            </div>
+          </form>
+    </div>
+    <div class="col">
+      <div class="orderid"></div>
+    </div>
+</div>
+{% endblock body %}
+{% block js%}
+<script>
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    console.log(cart);
+    var sum = 0;
+    var totalPrice = 0;
+    if ($.isEmptyObject(cart)) {
+        //if object is empty
+        mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`
+        $('#items').append(mystr);
+    } else {
+        for (item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let itemPrice = cart[item][2];
+            sum = sum + qty;
+            totalPrice = totalPrice + qty * itemPrice
+
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${name}
+                        <span class="badge badge-primary badge-pill">${qty}</span>
+                    </li>`
+            $('#items').append(mystr);
+        }
+    }
+    document.getElementById('cart').innerHTML = sum;
+    document.getElementById('totalPrice').innerHTML = totalPrice;
+
+   
+    $('#itemsJson').val(JSON.stringify(cart));
+    $('#amount').val($('#totalPrice').html())
+    // {% if thank %}
+    //     alert('Thanks for ordering with us. Your order is is {{id}}. Use it to track your order using our order tracker');
+    //    
+    //     document.location = "/shop";
+    // {% endif %}
+    // // {% if thank %}
+    // //     alert('Thanks For Contacting us We Will Get You Soon!')
+    // //     document.location = "/myshop";
+    // // {% endif %} 
+    // if thank==true{
+    //   alert('Thanks For Contacting us We Will Get You Soon!')
+
+    // }
+    // alert("Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker'")
+    // localStorage.clear();
+   
+    function onumber(){
+      alert("Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker")
+      console.log("hlwwe")
+      localStorage.clear();
+    }
+    $('#amount').val($('#totalPrice').html())
+   
+    </script>
+
+{% endblock %}

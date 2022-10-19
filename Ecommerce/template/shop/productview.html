@@ -1,0 +1,24 @@
+{% extends "shop/basic.html" %}
+{% block title %} welcome contact{% endblock title %}
+{% block body %}
+<p>Welcome to the Prodcut {{prodcut.pname}}</p>
+<div class="container my-4">
+    <div class="row">
+    <div class="col-md-4">
+    <div class="row">
+       <img src="/shop/{{prodcut.img}}" width="233px" height="385px">
+       
+    </div>
+    <div class="row">
+        <button class="btn btn-primary mx-3">Add to cart</button>
+        <button class="btn btn-primary mx-3">Buy now</button>
+       </div>
+        </div>
+    <div class="col-md-8">
+        <h5>  {{prodcut.pname}}</h5>
+        <h4>RS {{prodcut.price}}</h5>
+        <p> {{prodcut.des}}</p>
+    </div>
+        </div>
+</div>
+{% endblock body %}

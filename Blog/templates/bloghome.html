@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+{% block blogactive%} active{% endblock blogactive%}
+<div class="container">
+
+    <h1 class="my-4">Welcome to MOuntain coders blog </h1>
+{% for blog in allblog %}
+    <div class="media my-4">
+        <div class="media-body my-1">
+            <h2 class="my-1"><a href="/blogpost/{{blog.slug}}"> {{blog.title}}</a></h5>
+           {{blog.content|slice:45}}.....
+        </div>
+        <a href="/blogpost/{{blog.slug}}">
+        <buttton class="btn btn-primary">Read mores</buttton></a>
+    </div>
+    
+
+
+
+
+
+{% endfor  %}
+</div>
+{% endblock body %}
